@@ -56,6 +56,7 @@ unsigned char response_pkt[YOCTO_PKT_SIZE] = {
 };
 
 
+int verbose = 0;
 
 
 
@@ -271,6 +272,10 @@ int main(int argc, char* argv[])
     printf("this is a simple program that exhibit a bug in the USB stack\n");
     printf("of the Raspberry PI Zero and any Yoctopuce device\n");
 
+    if (argc > 1 && argv[1]){
+        verbose = 1;
+    }
+
     // init libUSB
     res = libusb_init(&libusb);
     if(res != 0) {
@@ -286,6 +291,10 @@ int main(int argc, char* argv[])
     nbdev = libusb_get_device_list(libusb, &list);
     if (nbdev < 0)
         return ySetErr("Unable to get device list", nbdev);
+
+    if (verbose) {
+            printf("[%d usb devices present]\n", i, desc.idVendor, desc.idProducto);
+    }
 
     // allocate buffer for detected interfaces
     nbifaceDetect = 0;
@@ -303,6 +312,11 @@ int main(int argc, char* argv[])
             returnval = ySetErr("Unable to get device descriptor", res);
             return -1;
         }
+
+        if (verbose) {
+            printf("[parse device %d = %X:%X]\n", i, desc.idVendor, desc.idProducto);
+        }
+
         if (desc.idVendor != YOCTO_VENDORID) {
             continue;
         }
@@ -334,7 +348,7 @@ int main(int argc, char* argv[])
         libusb_free_config_descriptor(config);
     }
     libusb_free_device_list(list, 1);
-    printf("%d Yoctopuce devices are present\n", (int)nbdev);
+    printf("%d Yoctopuce devices are present\n", nbifaceDetect);
 
     for (i = 0; i < nbifaceDetect; i++) {
         int p;
