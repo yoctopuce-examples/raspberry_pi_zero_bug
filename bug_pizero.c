@@ -293,7 +293,7 @@ int main(int argc, char* argv[])
         return ySetErr("Unable to get device list", nbdev);
 
     if (verbose) {
-            printf("[%d usb devices present]\n", i, desc.idVendor, desc.idProducto);
+            printf("[%d usb devices present]\n", i);
     }
 
     // allocate buffer for detected interfaces
@@ -314,7 +314,7 @@ int main(int argc, char* argv[])
         }
 
         if (verbose) {
-            printf("[parse device %d = %X:%X]\n", i, desc.idVendor, desc.idProducto);
+            printf("[parse device %d = %X:%X]\n", i, desc.idVendor, desc.idProduct);
         }
 
         if (desc.idVendor != YOCTO_VENDORID) {
