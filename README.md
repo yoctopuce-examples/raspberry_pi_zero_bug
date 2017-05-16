@@ -12,7 +12,7 @@ Randomly the Raspberry Pi Zero send corrupted CRC on ``IN`` request on interrupt
 
 We produce USB 2.0 device that work at Full Speed (not High Speed) and use two interrupt endpoints. See [http://www.yoctopuce.com]. Our devices are declared as HID device that use a Vendor specific protocol. Our open source library use the libUSB 1.0 to communicate with our devices.
 
-We have tested ans used all Raspberry Pi device since the beginning. But, we discover that official Raspbian Image after march 2015 installed on a Raspberry Pi Zero will no more work with our devices.
+We have tested ans used all Raspberry Pi device since the beginning. But, we discover that official Raspbian Image after march 2016 installed on a Raspberry Pi Zero will no more work with our devices.
 
 After some tests we found that USB packet sent by the Raspberry Pi Zero have sometime Invalid CRC. According to the USB specification (section: 8.7.1) when a device receive an invalid packet, it should ignore it and the USB host (the Raspberry Pi Zero) should resend it later.
 
@@ -20,7 +20,7 @@ But, on instead the libUSB return an error and is no more able to use the device
 
 We have not been able to find if the issue is in the libUSB or the Linux kernel. But have done lots of regression testing and here is the results:
 
-* Official Raspbian image until March 2015 does not have this issue.
+* Official Raspbian image until March 2016 does not have this issue.
 * Only the Raspberry Pi Zero and Pi Zero W are affected.
 
 This simple program exhibit the problem. It's a simple threaded example that iterate over all Yoctopuce connected devices and send 15 USB packets. For each sent packet the device with respond with an USB Packet.
