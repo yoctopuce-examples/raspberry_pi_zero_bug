@@ -3,29 +3,29 @@ A simple program to exhibit a bug in the USB stack of the Raspberry Pi Zero.
 
 ## Sort descriptions of the bug
 
-Randomly the Raspberry Pi Zero send corrupted CRC on ``IN`` request on interrupt endpoint.
+On random occasion, the Raspberry Pi Zero sends corrupted CRC on ``IN`` request on interrupt endpoint.
 
 ![Screenshot of the USB trace](screen_capture.png)
 
 
 ## Context
 
-We produce USB 2.0 device that work at Full Speed (not High Speed) and use two interrupt endpoints. See [http://www.yoctopuce.com]. Our devices are declared as HID device that use a Vendor specific protocol. Our open source library use the libUSB 1.0 to communicate with our devices.
+We produce USB 2.0 devices that work at Full Speed (not High Speed) and use two interrupt endpoints. See [http://www.yoctopuce.com]. Our devices are declared as HID devices that use a Vendor specific protocol. Our open source library use the libUSB 1.0 to communicate with our devices.
 
-We have tested ans used all Raspberry Pi device since the beginning. But, we discover that official Raspbian Image after march 2016 installed on a Raspberry Pi Zero will no more work with our devices.
+We tested and used all Raspberry Pi device since their appartion on on market. But we discovered that official Raspbian Image after march 2016 installed on a Raspberry Pi Zero don't work with our devices any more.
 
-After some tests we found that USB packet sent by the Raspberry Pi Zero have sometime Invalid CRC. According to the USB specification (section: 8.7.1) when a device receive an invalid packet, it should ignore it and the USB host (the Raspberry Pi Zero) should resend it later.
+After some investgations we found out that USB packet sent by the Raspberry Pi Zero have sometime Invalid CRC. According to the USB specification (section: 8.7.1) when a device receives an invalid packet, it should ignore it and the USB host (the Raspberry Pi Zero) should resend it later.
 
-But, on instead the libUSB return an error and is no more able to use the devices. Sometime it event completely free the Raspberry Pi Zero.
+But, on instead the libUSB return an error and is no more able to use the devices. Sometime it event completely freeze the Raspberry Pi Zero.
 
-We have not been able to find if the issue is in the libUSB or the Linux kernel. But have done lots of regression testing and here is the results:
+We have not been able to determne if the issue is in the libUSB or the Linux kernel. But lots of regression testing were done and here are the results:
 
 * Official Raspbian image until March 2016 does not have this issue.
 * Only the Raspberry Pi Zero and Pi Zero W are affected.
 
-This simple program exhibit the problem. It's a simple threaded example that iterate over all Yoctopuce connected devices and send 15 USB packets. For each sent packet the device with respond with an USB Packet.
+This simple program exhibits the problem. It's a simple threaded example that iterates over all Yoctopuce connected devices and send 15 USB packets. For each sent packet the device with respond with an USB Packet.
 
-If this binary is run on a Raspberry PI 2 or 3 everything run smoothly, but  if it' executed on a Raspberry PI Zero the libUSB report an IO error and freeze on the next packet send.
+If this binary is run on a Raspberry PI 2 or 3 everything run smoothly, but  if it is executed on a Raspberry PI Zero the libUSB report an IO error and freeze on the next packet send.
 
 
 ## Steps to compile this program
