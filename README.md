@@ -12,7 +12,7 @@ On random occasion, the Raspberry Pi Zero sends corrupted CRC on ``IN`` request 
 
 We produce USB 2.0 devices that work at Full Speed (not High Speed) and use two interrupt endpoints. See [http://www.yoctopuce.com]. Our devices are declared as HID devices that use a Vendor specific protocol. Our open source library use the libUSB 1.0 to communicate with our devices.
 
-We tested and used all Raspberry Pi device since their appartion on on market. But we discovered that official Raspbian Image after march 2016 installed on a Raspberry Pi Zero don't work with our devices any more.
+We tested and used all Raspberry Pi devices since their appartion on on market. But we discovered that official Raspbian Image after march 2016 installed on a Raspberry Pi Zero don't work with our devices any more.
 
 After some investgations we found out that USB packet sent by the Raspberry Pi Zero have sometime Invalid CRC. According to the USB specification (section: 8.7.1) when a device receives an invalid packet, it should ignore it and the USB host (the Raspberry Pi Zero) should resend it later.
 
