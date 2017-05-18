@@ -18,7 +18,7 @@ After some investgations we found out that USB packet sent by the Raspberry Pi Z
 
 But, on instead the libUSB return an error and is no more able to use the devices. Sometime it event completely freeze the Raspberry Pi Zero.
 
-We have not been able to determne if the issue is in the libUSB or the Linux kernel. But lots of regression testing were done and here are the results:
+We have not been able to determine if the issue is in the libUSB or the Linux kernel. But lots of regression testing were done and here are the results:
 
 * Official Raspbian image until March 2016 does not have this issue.
 * Only the Raspberry Pi Zero and Pi Zero W are affected.
